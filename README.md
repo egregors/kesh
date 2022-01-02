@@ -1,2 +1,2 @@
-# lru-cache
+# cache
 LRU Cache implementation fo Go
