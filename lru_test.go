@@ -31,12 +31,17 @@ func TestCommonLRUCache(t *testing.T) {
 
 	_, err = lru.Get(1)
 	require.Errorf(t, err, "cache has not key 1")
-	r3, _ := lru.Get(3)
+	r3, err := lru.Get(3)
 	require.NoError(t, err)
 	assert.Equal(t, 3, r3)
 	r4, err := lru.Get(4)
 	require.NoError(t, err)
 	assert.Equal(t, 4, r4)
+
+	lru.Put(4, "new value")
+	r4, err = lru.Get(4)
+	require.NoError(t, err)
+	assert.Equal(t, "new value", r4)
 }
 
 func BenchmarkLRUCache_Get_ifNotExist(b *testing.B) {

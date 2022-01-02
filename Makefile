@@ -3,7 +3,7 @@ PKG := "github.com/egregors/$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-.PHONY: all test lint
+.PHONY: all test lint bench
 
 all: help
 
@@ -15,6 +15,9 @@ test:  ## Run unittests
 
 race:  ## Run data race detector
 	@go test -race -short ${PKG_LIST}
+
+bench:  ## Run benchmarks
+	@go test -bench=.
 
 ## Help
 
