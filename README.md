@@ -1,6 +1,6 @@
 # Kesh 💶💶
 
-[![Build Status](https://github.com/egregors/kesh/actions/workflows/ci.yml/badge.svg)](https://github.com/egregors/kesh/actions) [![Coverage Status](https://coveralls.io/repos/github/egregors/kesh/badge.svg?branch=master)](https://coveralls.io/github/egregors/kesh?branch=master)
+[![Build Status](https://github.com/egregors/kesh/actions/workflows/ci.yml/badge.svg)](https://github.com/egregors/kesh/actions) [![Coverage Status](https://coveralls.io/repos/github/egregors/kesh/badge.svg?branch=main)](https://coveralls.io/github/egregors/kesh?branch=main)
 
 Some cache policies implementation in Go
 
