@@ -29,11 +29,11 @@ https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LR
 ```go
 package main
 
-import "github.com/egregors/cache"
+import "github.com/egregors/kesh"
 
 func main() {
 	// init lru cache with capacity 2
-	lru := cache.NewLRUCache(2)
+	lru := kesh.NewLRUCache(2)
 
 	lru.Put(42, "answer")
 	lru.Put("super key", "mega value")

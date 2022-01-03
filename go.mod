@@ -1,4 +1,4 @@
-module github.com/egregors/cache
+module github.com/egregors/kesh
 
 go 1.17
 

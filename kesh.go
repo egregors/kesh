@@ -1,4 +1,4 @@
-package cache
+package kesh
 
 // Cache is the common interface for all cache data structure implementations
 type Cache interface {
