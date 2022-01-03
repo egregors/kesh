@@ -5,12 +5,6 @@ import (
 	"sync"
 )
 
-// Cache is the common interface for all cache data structure implementations
-type Cache interface {
-	Get(key interface{}) (interface{}, error)
-	Put(key interface{}, val interface{})
-}
-
 // LRUCache is Least Recently Used (LRU) cache implementation
 // https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
 type LRUCache struct {
