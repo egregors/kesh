@@ -7,40 +7,41 @@ import (
 
 // LRUCache is Least Recently Used (LRU) cache implementation
 // https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
-type LRUCache struct {
-	cache     map[interface{}]*dllNode
+type LRUCache[K comparable, V any] struct {
+	cache     map[any]*dllNode[K, V]
 	cap, size int
-	l         dll
+	l         dll[K, V]
 
 	mu sync.Mutex
 }
 
-var _ Cache = (*LRUCache)(nil)
+// fixme: how should i do it now?
+// var _ Cache = (*LRUCache)(nil)
 
 // NewLRUCache performs creating a new LRUCache instance and returns a ref to it
-func NewLRUCache(capacity int) *LRUCache {
-	lru := &LRUCache{
-		cache: make(map[interface{}]*dllNode, capacity),
+func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
+	lru := &LRUCache[K, V]{
+		cache: make(map[any]*dllNode[K, V], capacity),
 		cap:   capacity,
 		size:  0,
-		l:     newDll(),
+		l:     newDll[K, V](),
 
 		mu: sync.Mutex{},
 	}
 	return lru
 }
 
-// Get return value of cached object if it's possible
-func (lru *LRUCache) Get(key interface{}) (interface{}, error) {
+// Get returns value of cached object if exist either its default value
+func (lru *LRUCache[K, V]) Get(key K) (val V, err error) {
 	if node, ok := lru.cache[key]; ok {
 		lru.l.moveNodeToHead(node)
 		return node.v, nil
 	}
-	return nil, fmt.Errorf("cache has not key %v", key)
+	return val, fmt.Errorf("cache has not key %v", key)
 }
 
 // Put adds key-value entity into cache
-func (lru *LRUCache) Put(key, val interface{}) {
+func (lru *LRUCache[K, V]) Put(key K, val V) {
 	lru.mu.Lock()
 	defer lru.mu.Unlock()
 
@@ -53,7 +54,7 @@ func (lru *LRUCache) Put(key, val interface{}) {
 			delete(lru.cache, n.k)
 			lru.size--
 		}
-		newNode := dllNode{
+		newNode := dllNode[K, V]{
 			k: key,
 			v: val,
 		}
