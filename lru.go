@@ -20,6 +20,7 @@ type LRUCache[K comparable, V any] struct {
 
 // NewLRUCache performs creating a new LRUCache instance and returns a ref to it
 func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
+	// fixme: what if capacity < 0
 	lru := &LRUCache[K, V]{
 		cache: make(map[any]*dllNode[K, V], capacity),
 		cap:   capacity,

@@ -13,9 +13,9 @@ Some cache policies implementation in Go
 All cache policies implementation should satisfy interface:
 ```go
 // Cache is the common interface for all cache data structure implementations
-type Cache interface {
-    Get(key interface{}) (interface{}, error)
-    Put(key interface{}, val interface{})
+type Cache[K comparable, V any] interface {
+	Get(key K) (V, error)
+	Put(key K, val V)
 }
 ```
 
@@ -33,10 +33,10 @@ import "github.com/egregors/kesh"
 
 func main() {
 	// init lru cache with capacity 2
-	lru := kesh.NewLRUCache(2)
+	lru := kesh.NewLRUCache[int, string](2)
 
 	lru.Put(42, "answer")
-	lru.Put("super key", "mega value")
+	lru.Put(69, "mega value")
 
 	r1, err := lru.Get(42)
 	...
@@ -46,9 +46,9 @@ func main() {
 
 #### Benchmarks
 ```shell
-BenchmarkLRUCache_Get_ifNotExist-12              8688457               129.8 ns/op
-BenchmarkLRUCache_Get_ifExist-12                63910112                18.03 ns/op
-BenchmarkLRUCache_Put_inCapacity-12             38644390                30.61 ns/op
-BenchmarkLRUCache_Put_outOfCapacity-12           8893297               126.0 ns/op
+BenchmarkLRUCache_Get_ifNotExist-12              9405915               125.1 ns/op
+BenchmarkLRUCache_Get_ifExist-12                63441625                18.70 ns/op
+BenchmarkLRUCache_Put_inCapacity-12             37034581                30.94 ns/op
+BenchmarkLRUCache_Put_outOfCapacity-12           8980623               131.9 ns/op
 ```
 
