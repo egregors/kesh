@@ -15,10 +15,9 @@ type LRUCache[K comparable, V any] struct {
 	mu sync.Mutex
 }
 
-// fixme: how should i do it now?
-// var _ Cache = (*LRUCache)(nil)
+var _ Cache[string, any] = (*LRUCache[string, any])(nil)
 
-// NewLRUCache performs creating a new LRUCache instance and returns a ref to it
+// NewLRUCache performs creating a new LRUCache instance and returns a ref to it.
 func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
 	// fixme: what if capacity < 0
 	lru := &LRUCache[K, V]{
@@ -32,8 +31,11 @@ func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
 	return lru
 }
 
-// Get returns value of cached object if exist either its default value
+// Get returns value of cached object if exist either its default value.
 func (lru *LRUCache[K, V]) Get(key K) (val V, err error) {
+	lru.mu.Lock()
+	defer lru.mu.Unlock()
+
 	if node, ok := lru.cache[key]; ok {
 		lru.l.moveNodeToHead(node)
 		return node.v, nil
@@ -41,7 +43,7 @@ func (lru *LRUCache[K, V]) Get(key K) (val V, err error) {
 	return val, fmt.Errorf("cache has not key %v", key)
 }
 
-// Put adds key-value entity into cache
+// Put adds key-value entity into cache.
 func (lru *LRUCache[K, V]) Put(key K, val V) {
 	lru.mu.Lock()
 	defer lru.mu.Unlock()

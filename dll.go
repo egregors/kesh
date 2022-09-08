@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// dllNode is double linked list node with arbitrary key \ value and refs to prev and next node
+// dllNode is double linked list node with arbitrary key \ value and refs to prev and next node.
 type dllNode[K comparable, V any] struct {
 	k          K
 	v          V
@@ -20,7 +20,7 @@ func (n *dllNode[K, V]) remove() {
 	// if node is invalid – do nothing
 }
 
-// dll is double linked list with refs to firsts and to last node of list
+// dll is double linked list with refs to first and to last node of list.
 type dll[K comparable, V any] struct {
 	head, last *dllNode[K, V]
 }
