@@ -7,13 +7,13 @@ import (
 )
 
 func Test_dll_pop(t *testing.T) {
-	l := newDll()
+	l := newDll[int, string]()
 
 	// pop empty list do nothing
 	assert.Nil(t, l.pop())
 
 	// regular pop
-	l.addNode(&dllNode{
+	l.addNode(&dllNode[int, string]{
 		k: 42,
 		v: "the answer",
 	})
@@ -23,11 +23,11 @@ func Test_dll_pop(t *testing.T) {
 }
 
 func Test_dll_moveNodeToHead(t *testing.T) {
-	l := newDll()
+	l := newDll[int, int]()
 
-	n1 := &dllNode{k: 1, v: 1}
-	n2 := &dllNode{k: 2, v: 2}
-	n3 := &dllNode{k: 3, v: 3}
+	n1 := &dllNode[int, int]{k: 1, v: 1}
+	n2 := &dllNode[int, int]{k: 2, v: 2}
+	n3 := &dllNode[int, int]{k: 3, v: 3}
 
 	l.addNode(n1)
 	l.addNode(n2)
@@ -41,11 +41,11 @@ func Test_dll_moveNodeToHead(t *testing.T) {
 }
 
 func Test_dll_removeNode(t *testing.T) {
-	l := newDll()
+	l := newDll[int, int]()
 
-	n1 := &dllNode{k: 1, v: 1}
-	n2 := &dllNode{k: 2, v: 2}
-	n3 := &dllNode{k: 3, v: 3}
+	n1 := &dllNode[int, int]{k: 1, v: 1}
+	n2 := &dllNode[int, int]{k: 2, v: 2}
+	n3 := &dllNode[int, int]{k: 3, v: 3}
 
 	l.addNode(n1)
 	l.addNode(n2)
@@ -67,14 +67,14 @@ func Test_dll_removeNode(t *testing.T) {
 	assert.Equal(t, l.String(), "head -> last")
 
 	// removing of invalid node do nothing
-	l.removeNode(&dllNode{})
+	l.removeNode(&dllNode[int, int]{})
 	assert.Equal(t, l.String(), "head -> last")
 }
 
 func Test_dll_addNode(t *testing.T) {
-	l := newDll()
+	l := newDll[int, string]()
 	assert.Equal(t, l.String(), "head -> last")
 
-	l.addNode(&dllNode{k: 123, v: "foobar"})
+	l.addNode(&dllNode[int, string]{k: 123, v: "foobar"})
 	assert.Equal(t, l.String(), "head -> 123:foobar -> last")
 }

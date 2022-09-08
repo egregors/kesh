@@ -9,12 +9,12 @@ import (
 )
 
 func TestNewLRUCache(t *testing.T) {
-	c := NewLRUCache(3)
+	c := NewLRUCache[int, int](3)
 	assert.Equal(t, c.cap, 3)
 }
 
 func TestCommonLRUCache(t *testing.T) {
-	lru := NewLRUCache(2)
+	lru := NewLRUCache[int, int](2)
 
 	lru.Put(1, 1)
 	lru.Put(2, 2)
@@ -38,21 +38,21 @@ func TestCommonLRUCache(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, 4, r4)
 
-	lru.Put(4, "new value")
+	lru.Put(4, 42)
 	r4, err = lru.Get(4)
 	require.NoError(t, err)
-	assert.Equal(t, "new value", r4)
+	assert.Equal(t, 42, r4)
 }
 
 func BenchmarkLRUCache_Get_ifNotExist(b *testing.B) {
-	c := NewLRUCache(1000)
+	c := NewLRUCache[int, int](1000)
 	for n := 0; n < b.N; n++ {
 		_, _ = c.Get(42)
 	}
 }
 
 func BenchmarkLRUCache_Get_ifExist(b *testing.B) {
-	c := NewLRUCache(1)
+	c := NewLRUCache[int, string](1)
 	c.Put(42, "the answer")
 	for n := 0; n < b.N; n++ {
 		_, _ = c.Get(42)
@@ -60,14 +60,14 @@ func BenchmarkLRUCache_Get_ifExist(b *testing.B) {
 }
 
 func BenchmarkLRUCache_Put_inCapacity(b *testing.B) {
-	c := NewLRUCache(math.MaxInt)
+	c := NewLRUCache[int, string](math.MaxInt)
 	for n := 0; n < b.N; n++ {
 		c.Put(42, "the answer")
 	}
 }
 
 func BenchmarkLRUCache_Put_outOfCapacity(b *testing.B) {
-	c := NewLRUCache(1)
+	c := NewLRUCache[int, string](1)
 	for n := 0; n < b.N; n++ {
 		c.Put(n, "the answer")
 	}
