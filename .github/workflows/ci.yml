@@ -10,10 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v5
       with:
         go-version: 1.18
 
@@ -27,10 +27,10 @@ jobs:
         GO111MODULE: "on"
 
     - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v2
+      uses: golangci/golangci-lint-action@v6
 
     - name: Install goveralls
-      run: GO111MODULE=off go get -u -v github.com/mattn/goveralls
+      run: go install github.com/mattn/goveralls@latest
 
     - name: Submit coverage
       run: $(go env GOPATH)/bin/goveralls -service="github" -coverprofile=$GITHUB_WORKSPACE/profile.cov
